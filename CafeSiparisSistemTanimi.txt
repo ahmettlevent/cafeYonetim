@@ -1,0 +1,25 @@
+Cafe Sipariş Sistemi
+
+Müşterilerin kasada verdiği siparişlerin, mutfakta ki ekranlara düştüğü,
+Aşçılar sipariş tamamlandığında siparişin tamamlandığını ekran üzerinden onaylıyor.
+Sipariş komilerin ekrarnın düşüyor ve siparişin verildiği masa numarası ile sipariş numarası aracılığı ile komi siparişi teslim ediyor.
+Sipariş teslim edildikten sonra, sipariş kasaya düşüyor ve ödeme bekleyen siparişler ekranında yer alıyor.
+Siparişin ödemesi yapıltıktan sonra, sipariş, sipariş bilgileri ile arşive ekleniyor.
+
+Online verilen siparişlerde, sipariş direkt mutfağa ulaşıyor, ve ödeme yapılmış ise, ödeme aşaması olmadan kurye ekranına düşüyor.
+Kurye, sipariş, ödenmemiş ise sipariş ücreti ve siparişin gideceği adres bilgilerini telefonundan görebiliyor.
+
+Fiyatlandırma, her yemek için, ortak bir veritabanı üzerinden yapılıyor.
+Yemek Fiyatları sadece kasa tarafından güncelleniyor, online sistem'e de kasa üzerinden ulaşıyor.
+
+Komi siparişi mobil uygulama üzerinden alıyor. Fiziksel Menü üzerindeki yemek-id 'yi uygulamaya girdiğinde otomatik olarak o yemek sepete ekleniyor. 
+Komi sepeti onayladıktan sonra sipariş mutfağa düşüyor.
+Sipariş üzerinde güncelleme yapılır ise, mutfağa bildirim gidiyor, ve bu durum aşçılara bildiriliyor, 
+aşçılar yemek'te değişiklik mümkün ise bunu ekran üzerinden belirtiyor.
+
+
+Veritabanı
+
+Yemekler
+Fiyatlar
+Menu
