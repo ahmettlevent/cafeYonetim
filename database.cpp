@@ -1,8 +1,13 @@
-    #include "database.h"
+#include "database.h"
 
 CafeDatabase::CafeDatabase()
 {
     CafeDatabase::connectDB();
+}
+
+CafeDatabase::~CafeDatabase()
+{
+    database.removeDatabase("cafeDB");
 }
 
 void CafeDatabase::connectDB(){
@@ -14,5 +19,6 @@ void CafeDatabase::connectDB(){
     cafeDB.setDatabaseName("cafeDB");
 
     CafeDatabase::isConnected = cafeDB.open();
+    setDatabase(cafeDB);
 };
 
