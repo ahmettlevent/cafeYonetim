@@ -24,7 +24,6 @@ void CafeSiparis::databaseConnection(){
     }
 };
 
-
 void CafeSiparis::initComboBox(){
     for (int i = 0 ;i<userTypes.size();++i){
       ui->comboBox->addItem(userTypes.at(i));
