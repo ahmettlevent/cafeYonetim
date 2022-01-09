@@ -10,10 +10,5 @@ int main(int argc, char *argv[])
 
     startWindow.show();
 
-//  CustomerWindow secondWindow;
-
-//  secondWindow.show();
-
-
     return a.exec();
 }

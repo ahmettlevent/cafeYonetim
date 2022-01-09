@@ -5,6 +5,8 @@
 #include <string>
 #include <QtSql>
 
+using namespace std;
+
 class CafeDatabase
 {
 private:
@@ -15,9 +17,13 @@ public:
 
     CafeDatabase();
     ~CafeDatabase();
-    void connectDB();
-    void setDatabase(QSqlDatabase cafeDB){this->database = cafeDB;};
-    QStringList getTableList(){return this->database.tables();};
+
+    void connectDB(string hostName,int port,string userName,string password,string databaseName);
+    void connectDefaultDB();
+    void setDatabase(QSqlDatabase cafeDB);
+
+    int checkUser(QString email,QString password);
+
 
 };
 
