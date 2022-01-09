@@ -6,6 +6,8 @@ CafeSiparis::CafeSiparis(QWidget *parent): QMainWindow(parent),ui(new Ui::CafeSi
 {
     ui->setupUi(this);
     CafeSiparis::databaseConnection();
+
+    initComboBox();
 }
 
 CafeSiparis::~CafeSiparis()
@@ -22,34 +24,70 @@ void CafeSiparis::databaseConnection(){
     }
 };
 
+
+void CafeSiparis::initComboBox(){
+    for (int i = 0 ;i<userTypes.size();++i){
+      ui->comboBox->addItem(userTypes.at(i));
+    };
+};
+
 void CafeSiparis::on_pushButton_clicked()
 {
     QString email,password;
+    int userType;
+
     email = ui->lineEdit->text();
     password = ui->lineEdit_2->text();
+    userType = ui->comboBox->currentIndex();
 
-    int userCheckResult = database.checkUser(email,password);
+    int userID = database.checkUser(email,password,userType);
 
-    ui->label_4->setText("Bilgiler Kontrol Ediliyor");
-    if (userCheckResult > 0) {
-        ui->label_4->setText("Bilgiler Dogrulandi"+userCheckResult);
-        CafeSiparis::switchToCustomerWindow(userCheckResult);
-    };
-    if (userCheckResult == -1) {
-
-        ui->label_4->setText("Bilgiler Dogrulandi -1");
-    };
-
-    if (userCheckResult == -2) {
-        ui->label_4->setText("Bilgiler Dogrulandi -2");
-    };
+    if (userID > 0) {
+        ui->label_5->setText("Kimlik Dogrulandi");
+        CafeSiparis::switchToSpecificWindow(userID,userType);
+    }else{
+        ui->label_5->setText("Bilgilerinizi Kontrol Edin");
+    }
 };
 
-
-void CafeSiparis::switchToCustomerWindow(int userID)
+void CafeSiparis::switchToSpecificWindow(int userID,int userType)
 {
-    customerWindow = new CustomerWindow();
-    customerWindow->setUserID(userID);
-    customerWindow->show();
+    switch(userType) {
+      case 0:
+        customerWindow = new CustomerWindow();
+        customerWindow->initUser(userID);
+        customerWindow->show();
+        break;
+      case 1:
+        courierWindow = new CourierWindow();
+        courierWindow->initUser(userID);
+        courierWindow->show();
+        break;
+      case 2:
+        chefWindow = new ChefWindow();
+        chefWindow->initUser(userID);
+        chefWindow->show();
+        break;
+      case 3:
+        checkoutWindow = new CheckoutWindow();
+        checkoutWindow->initUser(userID);
+        checkoutWindow->show();
+        break;
+    }
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

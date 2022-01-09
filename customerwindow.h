@@ -13,14 +13,17 @@ class CustomerWindow : public QMainWindow
     Q_OBJECT
     CafeDatabase database;
     int userID;
+    int userType = 0;
+
 
 public:
     explicit CustomerWindow(QWidget *parent = nullptr);
     ~CustomerWindow();
-
-    void setUserID(int userID);
+    void initUser(int userID);
 private:
     void databaseConnection();
+
+    void initUserInformations();
 
 private:
     Ui::CustomerWindow *ui;

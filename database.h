@@ -22,8 +22,9 @@ public:
     void connectDefaultDB();
     void setDatabase(QSqlDatabase cafeDB);
 
-    int checkUser(QString email,QString password);
+    int checkUser(QString email,QString password,int userType);
 
+    QStringList getUserInformation(int userID,int userType);
 
 };
 

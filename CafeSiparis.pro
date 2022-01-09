@@ -11,6 +11,9 @@ MYSQL_LIBS=-lmysqld
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    checkoutwindow.cpp \
+    chefwindow.cpp \
+    courierwindow.cpp \
     customerwindow.cpp \
     database.cpp \
     main.cpp \
@@ -18,11 +21,17 @@ SOURCES += \
 
 HEADERS += \
     cafesiparis.h \
+    checkoutwindow.h \
+    chefwindow.h \
+    courierwindow.h \
     customerwindow.h \
     database.h
 
 FORMS += \
     cafesiparis.ui \
+    checkoutwindow.ui \
+    chefwindow.ui \
+    courierwindow.ui \
     customerwindow.ui
 
 # Default rules for deployment.

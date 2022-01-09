@@ -31,10 +31,24 @@ void CafeDatabase::setDatabase(QSqlDatabase cafeDB){
 };
 
 
-int CafeDatabase::checkUser(QString email,QString password){
+int CafeDatabase::checkUser(QString email,QString password,int userType){
     QSqlQuery query(database);
 
-    query.prepare("SELECT id FROM public.user where email = '"+email+"' and password = '"+password+"';");
+    switch(userType) {
+      case 0:
+        query.prepare("SELECT id FROM public.customers where email = '"+email+"' and password = '"+password+"';");
+        break;
+      case 1:
+        query.prepare("SELECT id FROM public.couriers where email = '"+email+"' and password = '"+password+"';");
+        break;
+      case 2:
+        query.prepare("SELECT id FROM public.chefs where email = '"+email+"' and password = '"+password+"';");
+        break;
+      case 3:
+        query.prepare("SELECT id FROM public.checkouts where email = '"+email+"' and password = '"+password+"';");
+        break;
+    }
+
     query.exec();
 
     if (query.first())
@@ -47,9 +61,36 @@ int CafeDatabase::checkUser(QString email,QString password){
 };
 
 
+QStringList CafeDatabase::getUserInformation(int userID,int userType){
+    QSqlQuery query(database);
 
+    QString dbUserType;
 
+    switch(userType) {
+      case 0:
+            dbUserType = "customers";
+        break;
+      case 1:
+            dbUserType = "couriers";
+        break;
+      case 2:
+            dbUserType = "chefs";
+        break;
+      case 3:
+            dbUserType = "checkouts";
+        break;
+    }
 
+    query.prepare("SELECT firstname,lastname,email FROM public."+dbUserType+" where id = '"+QString::number(userID)+"';");
+    query.exec();
 
+    if (query.first())
+    {
+      QStringList userInformation = {query.value( 0 ).toString(),query.value( 1 ).toString(),query.value( 2 ).toString()};
+      return userInformation;
+    }else{
+      QStringList userInformation = {"Ad Bulunamadi","Soyad Bulunamadi","Mail Bulunamadı"};
+      return userInformation;
+    };
 
-
+};

@@ -4,7 +4,8 @@
 CustomerWindow::CustomerWindow(QWidget *parent) :QMainWindow(parent),ui(new Ui::CustomerWindow)
 {
     ui->setupUi(this);
-    CustomerWindow::databaseConnection();
+
+    databaseConnection();
 }
 
 CustomerWindow::~CustomerWindow()
@@ -13,17 +14,21 @@ CustomerWindow::~CustomerWindow()
 }
 
 
+
 void CustomerWindow::databaseConnection(){
      database.connectDefaultDB();
 
 };
 
 
-void CustomerWindow::setUserID(int userID){
+void CustomerWindow::initUser(int userID){
     this->userID = userID;
-    if (database.isConnected){
-        ui->label->setText(QString::number(this->userID));
-    }else{
-        ui->label->setText("Baglanti Basarisiz");
-    }
+    initUserInformations();
+};
+
+void CustomerWindow::initUserInformations(){
+    QStringList customerInformation = database.getUserInformation(this->userID,this->userType);
+    ui->label_3->setText(customerInformation.at(0));
+    ui->label_4->setText(customerInformation.at(1));
+    ui->label_6->setText(customerInformation.at(2));
 };

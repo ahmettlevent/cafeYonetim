@@ -3,7 +3,11 @@
 
 #include <QMainWindow>
 #include <database.h>
+
 #include <customerwindow.h>
+#include <chefwindow.h>
+#include <courierwindow.h>
+#include <checkoutwindow.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CafeSiparis; }
@@ -19,21 +23,29 @@ private:
     string userName = "cafeAdmin";
     string password ="123456";
     string databaseName = "cafeDB";
+    QStringList userTypes = { "Musteri", "Kurye", "Sef", "Kasa" };
+    int currentUserType = 0; // 0->Musteri 1->Kurye 2->Sef 3->Kasa
 
 public:
     CafeSiparis(QWidget *parent = nullptr);
     ~CafeSiparis();
 
 private:
+    void initComboBox();
+
     void databaseConnection();
     void userAuthenticator();
-    void switchToCustomerWindow(int userID);
+    void switchToSpecificWindow(int userID,int userType);
 
 private slots:
     void on_pushButton_clicked();
 
 private:
     CustomerWindow *customerWindow;
+    ChefWindow *chefWindow;
+    CourierWindow *courierWindow;
+    CheckoutWindow *checkoutWindow;
+
     Ui::CafeSiparis *ui;
 };
 #endif // CAFESIPARIS_H
