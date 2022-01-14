@@ -26,6 +26,7 @@ private:
     QStringList userTypes = { "Musteri", "Kurye", "Sef", "Kasa" };
     int currentUserType = 0; // 0->Musteri 1->Kurye 2->Sef 3->Kasa
 
+
 public:
     CafeSiparis(QWidget *parent = nullptr);
     ~CafeSiparis();

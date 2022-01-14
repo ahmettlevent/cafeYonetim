@@ -18,8 +18,8 @@ CafeSiparis::~CafeSiparis()
 void CafeSiparis::databaseConnection(){
     database.connectDB(this->hostName,this->port,this->userName,this->password,this->databaseName);
     if (database.isConnected){
-        ui->label_4->setText("Baglanti Basarili");
-    }else{
+        ui->label_4->setText("Baglanti Basarili");}
+    else{
         ui->label_4->setText("Baglanti Basarisiz");
     }
 };

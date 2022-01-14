@@ -4,7 +4,7 @@
 #include <QObject>
 #include <string>
 #include <QtSql>
-
+#include <QVector>
 using namespace std;
 
 class CafeDatabase
@@ -25,6 +25,9 @@ public:
     int checkUser(QString email,QString password,int userType);
 
     QStringList getUserInformation(int userID,int userType);
+    QVector<QStringList> getUserOrders(int userID);
+
+    QString getOrderTotalPrice(int orderID);
 
 };
 

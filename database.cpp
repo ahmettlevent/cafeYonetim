@@ -30,7 +30,7 @@ void CafeDatabase::setDatabase(QSqlDatabase cafeDB){
     this->database = cafeDB;
 };
 
-
+// General Auth Functions
 int CafeDatabase::checkUser(QString email,QString password,int userType){
     QSqlQuery query(database);
 
@@ -48,19 +48,14 @@ int CafeDatabase::checkUser(QString email,QString password,int userType){
         query.prepare("SELECT id FROM public.checkouts where email = '"+email+"' and password = '"+password+"';");
         break;
     }
-
     query.exec();
-
     if (query.first())
     {
       return query.value( 0 ).toInt();
     }else{
       return 0;
     };
-
 };
-
-
 QStringList CafeDatabase::getUserInformation(int userID,int userType){
     QSqlQuery query(database);
 
@@ -94,3 +89,39 @@ QStringList CafeDatabase::getUserInformation(int userID,int userType){
     };
 
 };
+
+// Customer Functions
+
+QVector<QStringList> CafeDatabase::getUserOrders(int userID){
+    QSqlQuery query(database);
+    QVector<QStringList> allUserOrders;
+
+    query.prepare("SELECT public.order.order_date, public.order.id, public.couriers.firstname FROM public.customers,public.couriers,public.order where ( public.customers.id = "+QString::number(userID)+" and public.customers.id = public.order.customer_id and public.order.courier_id = public.couriers.id );");
+    query.exec();
+
+    while( query.next() )
+    {
+        qDebug() << "selam";
+        QStringList userOrderInformation = {query.value( 0 ).toString(),query.value( 1 ).toString(),query.value( 2 ).toString()};
+        allUserOrders.append(userOrderInformation);
+    };
+    return allUserOrders;
+};
+
+QString CafeDatabase::getOrderTotalPrice(int orderID){
+    QSqlQuery query(database);
+
+    query.prepare("SELECT sum(public.food.food_price) FROM public.food,public.order,public.item where public.order.id = "+ QString::number(orderID)+ " and public.order.id = public.item.order_id and public.item.food_id = public.food.id;");
+    query.exec();
+
+    if( query.first() )
+    {
+        return query.value( 0 ).toString();
+    }
+    else{
+        QString failText = "Hesaplanamadi";
+        return failText;
+    };
+};
+
+
