@@ -101,7 +101,6 @@ QVector<QStringList> CafeDatabase::getUserOrders(int userID){
 
     while( query.next() )
     {
-        qDebug() << "selam";
         QStringList userOrderInformation = {query.value( 0 ).toString(),query.value( 1 ).toString(),query.value( 2 ).toString()};
         allUserOrders.append(userOrderInformation);
     };
