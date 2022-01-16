@@ -21,7 +21,7 @@ private:
     string hostName = "localhost";
     int port = 5432;
     string userName = "cafeAdmin";
-    string password ="123456";
+    string password = "123456";
     string databaseName = "cafeDB";
     QStringList userTypes = { "Musteri", "Kurye", "Sef", "Kasa" };
     int currentUserType = 0; // 0->Musteri 1->Kurye 2->Sef 3->Kasa

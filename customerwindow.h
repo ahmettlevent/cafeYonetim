@@ -45,6 +45,7 @@ private:
 
     void setCurrentOrders();
     void createOrderLayout(QString siparisNumarasi,QString toplamTutar,QString siparisTarihi,QString kuryeAdi);
+    void clearLayout(QLayout* layout);
 
 public slots:
     void buttonOrderDetail(QPushButton *button);

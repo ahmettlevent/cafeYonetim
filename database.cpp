@@ -96,8 +96,7 @@ QVector<QStringList> CafeDatabase::getUserOrders(int userID){
     QSqlQuery query(database);
     QVector<QStringList> allUserOrders;
 
-    query.prepare("SELECT public.order.order_date, public.order.id, public.couriers.firstname FROM public.customers,public.couriers,public.order where ( public.customers.id = "+QString::number(userID)+" and public.customers.id = public.order.customer_id and public.order.courier_id = public.couriers.id );");
-    query.exec();
+    query.prepare("SELECT public.order.order_date, public.order.id, public.couriers.firstname FROM public.customers,public.couriers,public.order where ( public.customers.id = "+QString::number(userID)+" and public.customers.id = public.order.customer_id and public.order.order_status != '5'   );");
 
     while( query.next() )
     {
@@ -124,3 +123,45 @@ QString CafeDatabase::getOrderTotalPrice(int orderID){
 };
 
 
+
+QVector<QStringList> CafeDatabase::getCouriersLiveOrder(int orderID, int couriersID){
+    QSqlQuery query(database);
+    QVector<QStringList> info_of_couriers_live_order;
+
+    query.prepare("SELECT public.order.id as siparis_id,public.customers.address as siparis_adres, public.checkouts.checkout_name, public.food.food_name, public.chefs.firstname as hazirlayan_sef_adi FROM public.couriers, public.chefs,public.checkouts,public.order,public.item,public.food,public.customers WHERE customers.id = public.order.customer_id and public.order.order_status = 2 and  item.order_id = 4 and food.id = item.food_id and public.order.checkout_id = checkouts.id and public.order.courier_id = 5 and chefs.id = public.order.chef_id;");
+    query.exec();
+
+    while( query.next() )
+    {
+        QStringList couriersOrderInformation = {query.value( 0 ).toString(),query.value( 1 ).toString(),query.value( 2 ).toString()};
+        info_of_couriers_live_order.append(couriersOrderInformation);
+    };
+    return info_of_couriers_live_order;
+};
+
+int CafeDatabase::setOrderCancel(int orderID,int customerID){
+    QSqlQuery query(database);
+
+    query.prepare("UPDATE public.order SET order_status = '5' FROM  public.customers WHERE public.order.customer_id = "+ QString::number(customerID)+ "  AND public.order.id = "+ QString::number(orderID)+ "  AND (public.order.order_status = '0' or public.order.order_status = '1' or public.order.order_status = '2');");
+    query.exec();
+
+    while( query.next() )
+    {
+        return query.value( 0 ).toInt();
+    };
+    return 0;
+};
+
+
+int CafeDatabase::set_order_2_to_3(int orderID, int couriersID){
+    QSqlQuery query(database);
+    query.prepare("UPDATE public.order SET order_status = '3' FROM  public.couriers WHERE public.order.courier_id = "+ QString::number(couriersID)+ "  AND public.order.id = "+ QString::number(orderID)+ "  AND public.order.order_status = '2';");
+
+    query.exec();
+    if (query.first())
+    {
+      return 1;
+    }else{
+      return 0;
+    };
+};

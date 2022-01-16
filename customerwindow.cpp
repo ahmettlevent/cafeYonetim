@@ -5,14 +5,12 @@ CustomerWindow::CustomerWindow(QWidget *parent) :QMainWindow(parent),ui(new Ui::
 {
     ui->setupUi(this);
     databaseConnection();
-}
+};
 
 CustomerWindow::~CustomerWindow()
 {
     delete ui;
-}
-
-
+};
 
 void CustomerWindow::databaseConnection(){
      database.connectDefaultDB();
@@ -35,13 +33,8 @@ void CustomerWindow::initUserInformations(){
 void CustomerWindow::setCurrentOrders(){
     QVector<QStringList> allUserOrders = database.getUserOrders(this->userID);
 
-    for (int i = 0; i < allUserOrders.size(); ++i) {
-        QString siparisTarihi = "Siparis Tarihi : " + allUserOrders[i][0];
-        QString siparisNumarasi = "Siparis Numarasi : "+ allUserOrders[i][1];
-        QString kuryeAdi = "Kurye Adi : "+ allUserOrders[i][2];
-        QString toplamTutar = "Toplam Siparis Tutari : "+ database.getOrderTotalPrice(allUserOrders[i][1].toInt()) + "TL";
-
-        createOrderLayout( siparisNumarasi, toplamTutar, siparisTarihi, kuryeAdi);
+    for (int i=0 ; i < allUserOrders.size() ; i++){
+        createOrderLayout( allUserOrders[i][1], database.getOrderTotalPrice(allUserOrders[i][1].toInt()), allUserOrders[i][0], allUserOrders[i][2]);
     };
 };
 
@@ -60,10 +53,15 @@ void CustomerWindow::createOrderLayout(QString siparisNumarasi,QString toplamTut
     connect(btnSiparisIptal, &QPushButton::clicked, this,[this, btnSiparisIptal]{buttonOrderCancel(btnSiparisIptal);});
     connect(btnSiparisListesi, &QPushButton::clicked, this,[this, btnSiparisListesi]{buttonOrderDetail(btnSiparisListesi);});
 
-    labelSiparisNumarasi = new QLabel(siparisNumarasi);
-    labelToplamTutar = new QLabel(toplamTutar);
-    labelSiparisTarihi = new QLabel(siparisTarihi);
-    labelKuryeAdi = new QLabel(kuryeAdi);
+    QString siparisTarihi_str = "Siparis Tarihi : " + siparisTarihi;
+    QString siparisNumarasi_str = "Siparis Numarasi : "+ siparisNumarasi;
+    QString kuryeAdi_str = "Kurye Adi : "+kuryeAdi ;
+    QString toplamTutar_str = "Toplam Siparis Tutari : "+ toplamTutar + "TL";
+
+    labelSiparisNumarasi = new QLabel(siparisNumarasi_str);
+    labelToplamTutar = new QLabel(toplamTutar_str);
+    labelSiparisTarihi = new QLabel(siparisTarihi_str);
+    labelKuryeAdi = new QLabel(kuryeAdi_str);
 
     vBoxOrderDetails->addWidget(labelSiparisNumarasi);
     vBoxOrderDetails->addWidget(labelToplamTutar);
@@ -76,27 +74,26 @@ void CustomerWindow::createOrderLayout(QString siparisNumarasi,QString toplamTut
     hBoxNewOrder->addLayout(vBoxOrderDetails,0);
     hBoxNewOrder->addLayout(vBoxOrderButtons,1);
 
-    ui->verticalLayout_4->addLayout(hBoxNewOrder,1);
+    ui->widget->setLayout(hBoxNewOrder);
 };
 
 
 void CustomerWindow::buttonOrderDetail(QPushButton *button){
-    qDebug() << button->property("id");;
+    qDebug() << button->property("id");
+    QVector<QStringList> info_of_couriers_live_order = database.getCouriersLiveOrder(4,5);
+
+    for (int i = 0; i < info_of_couriers_live_order.size(); ++i){
+        qDebug() << info_of_couriers_live_order[0][0];
+    };
 };
 void CustomerWindow::buttonOrderCancel(QPushButton *button){
-    qDebug() << button->property("id");;
+    database.setOrderCancel(button->property("id").toInt(),this->userID);
+
+    delete button->parentWidget();
+
+    setCurrentOrders();
+
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 
