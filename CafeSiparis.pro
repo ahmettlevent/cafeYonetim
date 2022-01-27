@@ -17,7 +17,8 @@ SOURCES += \
     customerwindow.cpp \
     database.cpp \
     main.cpp \
-    cafesiparis.cpp
+    cafesiparis.cpp \
+    orderlist.cpp
 
 HEADERS += \
     cafesiparis.h \
@@ -25,14 +26,16 @@ HEADERS += \
     chefwindow.h \
     courierwindow.h \
     customerwindow.h \
-    database.h
+    database.h \
+    orderlist.h
 
 FORMS += \
     cafesiparis.ui \
     checkoutwindow.ui \
     chefwindow.ui \
     courierwindow.ui \
-    customerwindow.ui
+    customerwindow.ui \
+    orderlist.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

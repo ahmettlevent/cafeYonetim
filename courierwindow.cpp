@@ -25,3 +25,4 @@ void CourierWindow::databaseConnection(){
 void CourierWindow::initUser(int userID){
     this->userID = userID;
 };
+

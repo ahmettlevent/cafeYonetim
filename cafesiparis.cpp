@@ -75,18 +75,3 @@ void CafeSiparis::switchToSpecificWindow(int userID,int userType)
     }
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
